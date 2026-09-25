@@ -1,0 +1,166 @@
+@import "tailwindcss";
+/* @import "tw-animate-css"; */
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system — "Cozy Pixel Town"
+ * Warm parchment surfaces, terracotta accents, sage secondary.
+ * Fonts: Pixelify Sans (display) + Atkinson Hyperlegible (body), loaded in __root.tsx.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-glass: var(--glass);
+  --color-glass-border: var(--glass-border);
+  --color-night: var(--night);
+  --color-night-foreground: var(--night-foreground);
+  --color-water: var(--water);
+  --color-leaf: var(--leaf);
+  --color-sun: var(--sun);
+  --font-display: "Pixelify Sans", ui-monospace, monospace;
+  --font-sans: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --shadow-cozy:
+    0 18px 50px -20px oklch(0.3 0.06 50 / 0.55),
+    0 0 0 1px oklch(1 0 0 / 0.35) inset;
+  --shadow-pixel: 4px 4px 0 0 oklch(0.3 0.05 50 / 0.35);
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-bob: bob 0.9s ease-in-out infinite;
+  --animate-pop: pop 0.35s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.96 0.025 80);
+  --foreground: oklch(0.28 0.04 50);
+  --card: oklch(0.98 0.02 85);
+  --card-foreground: oklch(0.28 0.04 50);
+  --popover: oklch(0.98 0.02 85);
+  --popover-foreground: oklch(0.28 0.04 50);
+  --primary: oklch(0.62 0.16 40);
+  --primary-foreground: oklch(0.99 0.01 85);
+  --secondary: oklch(0.72 0.09 140);
+  --secondary-foreground: oklch(0.22 0.04 140);
+  --muted: oklch(0.92 0.025 80);
+  --muted-foreground: oklch(0.5 0.04 55);
+  --accent: oklch(0.86 0.12 85);
+  --accent-foreground: oklch(0.3 0.06 60);
+  --destructive: oklch(0.58 0.2 25);
+  --destructive-foreground: oklch(0.99 0.01 85);
+  --border: oklch(0.82 0.04 70);
+  --input: oklch(0.85 0.03 70);
+  --ring: oklch(0.62 0.16 40);
+  --glass: oklch(0.98 0.02 85 / 0.78);
+  --glass-border: oklch(1 0 0 / 0.6);
+  --night: oklch(0.26 0.04 260 / 0.82);
+  --night-foreground: oklch(0.96 0.02 85);
+  --water: oklch(0.62 0.1 220);
+  --leaf: oklch(0.55 0.12 140);
+  --sun: oklch(0.85 0.15 80);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@utility glass {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: var(--shadow-cozy);
+}
+
+@utility glass-dark {
+  background: var(--night);
+  color: var(--night-foreground);
+  border: 1px solid oklch(1 0 0 / 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@utility pixel-border {
+  box-shadow: var(--shadow-pixel);
+  border: 2px solid var(--foreground);
+}
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
+    height: 100%;
+    overscroll-behavior: none;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: 0.01em;
+  }
+  canvas {
+    image-rendering: pixelated;
+    display: block;
+  }
+}
