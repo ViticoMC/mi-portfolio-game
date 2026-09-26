@@ -7,7 +7,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   private dir: Dir = "down";
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
-    super(scene, x, y, "player_walk", 0);
+    super(scene, x, y, "player_idle", 0);
     scene.add.existing(this);
 
     scene.physics.add.existing(this);

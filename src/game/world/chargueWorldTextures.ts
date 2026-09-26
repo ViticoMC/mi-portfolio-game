@@ -12,6 +12,8 @@ export const ChargueWorld = {
       frameWidth: 256,
       frameHeight: 256,
     });
+    scene.load.image("arboles", "/arboles.webp");
+    scene.load.image("mediem_decorations", "/mediem_decorations.webp");
   },
   create: (
     scene: Phaser.Scene,
@@ -24,9 +26,7 @@ export const ChargueWorld = {
 
     const groundTileset = map.addTilesetImage("ground", "ground");
 
-    const structuresTileset = map.addTilesetImage("structures", "structures");
-
-    if (!groundTileset || !structuresTileset) {
+    if (!groundTileset) {
       console.error("Tilesets no encontrados");
       return;
     }
@@ -37,10 +37,32 @@ export const ChargueWorld = {
       return;
     }
 
+    const decorationsTileset = map.addTilesetImage(
+      "mediem_decorations",
+      "mediem_decorations",
+    );
+
+    const treesTileset = map.addTilesetImage("arboles", "arboles");
+
+    if (!decorationsTileset || !treesTileset) {
+      console.error("Tilesets no encontrados");
+      return;
+    }
+
+    map
+      .createLayer("nature", [decorationsTileset, treesTileset], 0, 0)
+      .setDepth(100000);
+
+    // carga de objetos y estructuras
+    const structuresTileset = map.addTilesetImage("structures", "structures");
     const objectLayer = map.getObjectLayer("structures_object");
 
     if (!objectLayer) {
       console.error("No existe la capa structures_object");
+      return;
+    }
+    if (!structuresTileset) {
+      console.error("Tilesets no encontrados");
       return;
     }
 
