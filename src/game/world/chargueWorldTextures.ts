@@ -95,7 +95,7 @@ export const ChargueWorld = {
         frame,
       );
 
-      sprite.setDepth(ind);
+      sprite.setDepth(obj.y || ind);
       sprite.setOrigin(0, 1);
 
       scene.physics.add.existing(sprite, true);

@@ -9,6 +9,7 @@ import { InteractionSystem } from "../systems/InteractionSystem";
 import { spawn } from "../world/townLayout";
 import { ChargueWorld } from "../world/chargueWorldTextures";
 import { ChangueZome } from "../util/changueZoom";
+import { ChargueTexturesPlayer } from "../textures/chargueTexturesPlayer";
 
 export class MainScene extends Phaser.Scene {
   private player!: Player;
@@ -27,6 +28,7 @@ export class MainScene extends Phaser.Scene {
 
   preload() {
     ChargueWorld.preload(this);
+    ChargueTexturesPlayer.preload(this);
   }
 
   create() {

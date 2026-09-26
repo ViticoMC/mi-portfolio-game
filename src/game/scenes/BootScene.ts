@@ -9,7 +9,7 @@ export class BootScene extends Phaser.Scene {
   }
 
   create() {
-    generateAllTextures(this, buildings);
+    // generateAllTextures(this, buildings);
     this.scene.start("Town");
   }
 }

@@ -19,7 +19,7 @@ export function createGame(parent: HTMLElement): Phaser.Game {
     },
     physics: { default: "arcade", arcade: { debug: true } },
     input: { keyboard: true, touch: true },
-    scene: [BootScene, MainScene],
+    scene: [MainScene],
     // scene: [Test],
   });
 }
