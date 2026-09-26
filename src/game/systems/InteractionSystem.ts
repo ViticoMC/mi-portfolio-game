@@ -1,19 +1,20 @@
 import Phaser from "phaser";
 import type { ModalId } from "@/data/profile";
-import { useGameStore } from "@/store/gameStore";
+import { gameStore } from "@/store/gameStore";
 import { DEPTH } from "@@/constants";
 
 interface Interactable {
   id: ModalId;
   label: string;
-  zone: Phaser.Geom.Rectangle;
   marker: Phaser.GameObjects.Text;
 }
 
-/** Detects when the player stands inside an interaction zone and opens the matching modal. */
+/** Tracks the current interactable and opens the matching modal on E. */
 export class InteractionSystem {
-  private items: Interactable[] = [];
+  private items = new Map<ModalId, Interactable>();
   private current: Interactable | null = null;
+  private lastTouchAt = 0;
+  private readonly touchTimeoutMs = 180;
 
   constructor(private scene: Phaser.Scene) {}
 
@@ -44,21 +45,33 @@ export class InteractionSystem {
       repeat: -1,
       ease: "Sine.inOut",
     });
-    this.items.push({ id, label, zone, marker });
+    this.items.set(id, { id, label, marker });
   }
 
-  update(px: number, py: number, interactPressed: boolean) {
-    const next = this.items.find((i) => i.zone.contains(px, py)) ?? null;
-    if (next !== this.current) {
+  touch(id: ModalId, label: string, now = this.scene.time.now) {
+    const item = this.items.get(id);
+    if (!item) return;
+
+    if (this.current?.id !== id) {
       this.current?.marker.setVisible(false);
-      next?.marker.setVisible(true);
-      this.current = next;
-      useGameStore
-        .getState()
-        .setNearby(next ? { id: next.id, label: next.label } : null);
+      this.current = item;
     }
-    if (next && interactPressed && !useGameStore.getState().activeModal) {
-      useGameStore.getState().openModal(next.id);
+
+    this.current.label = label;
+    this.current.marker.setVisible(true);
+    this.lastTouchAt = now;
+    gameStore.getState().setNearby({ id, label });
+  }
+
+  update(now: number, interactPressed: boolean) {
+    if (this.current && now - this.lastTouchAt > this.touchTimeoutMs) {
+      this.current.marker.setVisible(false);
+      this.current = null;
+      gameStore.getState().setNearby(null);
+    }
+
+    if (this.current && interactPressed && !gameStore.getState().activeModal) {
+      gameStore.getState().openModal(this.current.id);
     }
   }
 }

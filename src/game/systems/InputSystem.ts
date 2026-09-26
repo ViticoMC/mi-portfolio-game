@@ -1,5 +1,7 @@
 import Phaser from "phaser";
-import { useGameStore } from "@/store/gameStore";
+import { gameStore } from "@/store/gameStore";
+
+const ZOOM_STEP = 0.05;
 
 /** Unifies keyboard (WASD / arrows / E) and the React virtual joystick. */
 export class InputSystem {
@@ -15,16 +17,16 @@ export class InputSystem {
     this.wasd = kb.addKeys("W,A,S,D") as InputSystem["wasd"];
     this.keyE = kb.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     this.cameraZoom = kb.addKeys("Z,X") as InputSystem["cameraZoom"];
-    this.lastInteractTick = useGameStore.getState().interactTick;
+    this.lastInteractTick = gameStore.getState().interactTick;
     // Don't steal keys (space, arrows) from the page while a modal is focused.
     kb.on("keydown", (e: KeyboardEvent) => {
-      if (useGameStore.getState().activeModal) e.stopImmediatePropagation();
+      if (gameStore.getState().activeModal) e.stopImmediatePropagation();
     });
   }
 
   /** Movement vector in [-1, 1] on both axes. Empty while a modal is open. */
   get vector(): { x: number; y: number } {
-    const { activeModal, joystick } = useGameStore.getState();
+    const { activeModal, joystick } = gameStore.getState();
     if (activeModal) return { x: 0, y: 0 };
 
     let x = 0;
@@ -39,7 +41,7 @@ export class InputSystem {
 
   /** True exactly once per E press or virtual button tap. */
   consumeInteract(): boolean {
-    const tick = useGameStore.getState().interactTick;
+    const tick = gameStore.getState().interactTick;
     const fromButton = tick !== this.lastInteractTick;
     this.lastInteractTick = tick;
     return fromButton || Phaser.Input.Keyboard.JustDown(this.keyE);
@@ -48,10 +50,10 @@ export class InputSystem {
   /** True exactly once per Z or X press. */
   get zoom(): number | null {
     if (this.cameraZoom.Z.isDown) {
-      return 0.05;
+      return ZOOM_STEP;
     }
     if (this.cameraZoom.X.isDown) {
-      return -0.05;
+      return -ZOOM_STEP;
     }
     return null;
   }

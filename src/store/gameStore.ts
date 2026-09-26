@@ -1,4 +1,5 @@
-import { create } from "zustand";
+import { createStore } from "zustand/vanilla";
+import { useStore } from "zustand";
 import type { ModalId } from "@/data/profile";
 
 export interface NearbyTarget {
@@ -29,7 +30,7 @@ interface GameState {
   setIsTouch: (v: boolean) => void;
 }
 
-export const useGameStore = create<GameState>((set) => ({
+export const gameStore = createStore<GameState>()((set) => ({
   hasStarted: false,
   activeModal: null,
   selectedProjectId: null,
@@ -48,3 +49,7 @@ export const useGameStore = create<GameState>((set) => ({
   requestInteract: () => set((s) => ({ interactTick: s.interactTick + 1 })),
   setIsTouch: (v) => set({ isTouch: v }),
 }));
+
+export function useGameStore<T>(selector: (state: GameState) => T): T {
+  return useStore(gameStore, selector);
+}

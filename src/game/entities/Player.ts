@@ -26,23 +26,23 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     // Player.ensureAnimations(scene);
   }
 
-  //   private static ensureAnimations(scene: Phaser.Scene) {
-  //     const dirs: Dir[] = ["down", "left", "right", "up"];
-  //     for (const d of dirs) {
-  //       if (scene.anims.exists(`walk-${d}`)) continue;
-  //       scene.anims.create({
-  //         key: `walk-${d}`,
-  //         frames: [
-  //           { key: "player", frame: `${d}-1` },
-  //           { key: "player", frame: `${d}-0` },
-  //           { key: "player", frame: `${d}-2` },
-  //           { key: "player", frame: `${d}-0` },
-  //         ],
-  //         frameRate: 8,
-  //         repeat: -1,
-  //       });
-  //     }
+  // private static ensureAnimations(scene: Phaser.Scene) {
+  //   const dirs: Dir[] = ["down", "left", "right", "up"];
+  //   for (const d of dirs) {
+  //     if (scene.anims.exists(`walk-${d}`)) continue;
+  //     scene.anims.create({
+  //       key: `walk-${d}`,
+  //       frames: [
+  //         { key: "player", frame: `${d}-1` },
+  //         { key: "player", frame: `${d}-0` },
+  //         { key: "player", frame: `${d}-2` },
+  //         { key: "player", frame: `${d}-0` },
+  //       ],
+  //       frameRate: 8,
+  //       repeat: -1,
+  //     });
   //   }
+  // }
 
   /** Apply a normalized movement vector; zero vector = idle. */
   move(vx: number, vy: number) {

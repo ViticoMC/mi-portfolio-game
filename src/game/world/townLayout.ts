@@ -1,5 +1,5 @@
 import type { ModalId } from "@/data/profile";
-import { TILE } from "../constants";
+import { TILES_SIZE } from "../constants";
 
 export type BuildingStyle = "house" | "tech" | "workshop" | "library" | "port";
 
@@ -112,7 +112,7 @@ export const paths: RectDef[] = [
 ];
 
 /** Player spawns just below the house door. */
-export const spawn = { x: 22 * TILE, y: 22 * TILE };
+export const spawn = { x: 22 * TILES_SIZE, y: 22 * TILES_SIZE };
 
 /** Lamp posts around the plaza. */
 export const lamps: Array<{ tx: number; ty: number }> = [
@@ -132,5 +132,10 @@ export function seeded(seed: number) {
 }
 
 export function rectToPx(r: RectDef) {
-  return { x: r.tx * TILE, y: r.ty * TILE, w: r.tw * TILE, h: r.th * TILE };
+  return {
+    x: r.tx * TILES_SIZE,
+    y: r.ty * TILES_SIZE,
+    w: r.tw * TILES_SIZE,
+    h: r.th * TILES_SIZE,
+  };
 }
